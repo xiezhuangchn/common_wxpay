@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hnair.pay.db.dao.mapper.ProductChannelConfigMapper" >
+  <resultMap id="BaseResultMap" type="com.hnair.pay.db.entity.ProductChannelConfig" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="product_app_id" property="productAppId" jdbcType="VARCHAR" />
+    <result column="bus_channel" property="busChannel" jdbcType="VARCHAR" />
+    <result column="sign_key" property="signKey" jdbcType="VARCHAR" />
+    <result column="pay_notify_url" property="payNotifyUrl" jdbcType="VARCHAR" />
+    <result column="refund_notify_url" property="refundNotifyUrl" jdbcType="VARCHAR" />
+    <result column="sharing_notify_url" property="sharingNotifyUrl" jdbcType="VARCHAR" />
+    <result column="huidu_pay_notify_url" property="huiduPayNotifyUrl" jdbcType="VARCHAR" />
+    <result column="huidu_refund_notify_url" property="huiduRefundNotifyUrl" jdbcType="VARCHAR" />
+    <result column="huidu_sharing_notify_url" property="huiduSharingNotifyUrl" jdbcType="VARCHAR" />
+    <result column="operator_id" property="operatorId" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, product_app_id, bus_channel, sign_key, pay_notify_url, refund_notify_url, sharing_notify_url, 
+    huidu_pay_notify_url, huidu_refund_notify_url, huidu_sharing_notify_url, operator_id, 
+    update_time, create_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hnair.pay.db.entity.ProductChannelConfigExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from product_channel_config
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from product_channel_config
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from product_channel_config
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hnair.pay.db.entity.ProductChannelConfigExample" >
+    delete from product_channel_config
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hnair.pay.db.entity.ProductChannelConfig" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into product_channel_config (product_app_id, bus_channel, sign_key, 
+      pay_notify_url, refund_notify_url, sharing_notify_url, 
+      huidu_pay_notify_url, huidu_refund_notify_url, 
+      huidu_sharing_notify_url, operator_id, update_time, 
+      create_time)
+    values (#{productAppId,jdbcType=VARCHAR}, #{busChannel,jdbcType=VARCHAR}, #{signKey,jdbcType=VARCHAR}, 
+      #{payNotifyUrl,jdbcType=VARCHAR}, #{refundNotifyUrl,jdbcType=VARCHAR}, #{sharingNotifyUrl,jdbcType=VARCHAR}, 
+      #{huiduPayNotifyUrl,jdbcType=VARCHAR}, #{huiduRefundNotifyUrl,jdbcType=VARCHAR}, 
+      #{huiduSharingNotifyUrl,jdbcType=VARCHAR}, #{operatorId,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hnair.pay.db.entity.ProductChannelConfig" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into product_channel_config
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="productAppId != null" >
+        product_app_id,
+      </if>
+      <if test="busChannel != null" >
+        bus_channel,
+      </if>
+      <if test="signKey != null" >
+        sign_key,
+      </if>
+      <if test="payNotifyUrl != null" >
+        pay_notify_url,
+      </if>
+      <if test="refundNotifyUrl != null" >
+        refund_notify_url,
+      </if>
+      <if test="sharingNotifyUrl != null" >
+        sharing_notify_url,
+      </if>
+      <if test="huiduPayNotifyUrl != null" >
+        huidu_pay_notify_url,
+      </if>
+      <if test="huiduRefundNotifyUrl != null" >
+        huidu_refund_notify_url,
+      </if>
+      <if test="huiduSharingNotifyUrl != null" >
+        huidu_sharing_notify_url,
+      </if>
+      <if test="operatorId != null" >
+        operator_id,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="productAppId != null" >
+        #{productAppId,jdbcType=VARCHAR},
+      </if>
+      <if test="busChannel != null" >
+        #{busChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="signKey != null" >
+        #{signKey,jdbcType=VARCHAR},
+      </if>
+      <if test="payNotifyUrl != null" >
+        #{payNotifyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="refundNotifyUrl != null" >
+        #{refundNotifyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="sharingNotifyUrl != null" >
+        #{sharingNotifyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="huiduPayNotifyUrl != null" >
+        #{huiduPayNotifyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="huiduRefundNotifyUrl != null" >
+        #{huiduRefundNotifyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="huiduSharingNotifyUrl != null" >
+        #{huiduSharingNotifyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorId != null" >
+        #{operatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hnair.pay.db.entity.ProductChannelConfigExample" resultType="java.lang.Integer" >
+    select count(*) from product_channel_config
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update product_channel_config
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.productAppId != null" >
+        product_app_id = #{record.productAppId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.busChannel != null" >
+        bus_channel = #{record.busChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.signKey != null" >
+        sign_key = #{record.signKey,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payNotifyUrl != null" >
+        pay_notify_url = #{record.payNotifyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.refundNotifyUrl != null" >
+        refund_notify_url = #{record.refundNotifyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sharingNotifyUrl != null" >
+        sharing_notify_url = #{record.sharingNotifyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.huiduPayNotifyUrl != null" >
+        huidu_pay_notify_url = #{record.huiduPayNotifyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.huiduRefundNotifyUrl != null" >
+        huidu_refund_notify_url = #{record.huiduRefundNotifyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.huiduSharingNotifyUrl != null" >
+        huidu_sharing_notify_url = #{record.huiduSharingNotifyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operatorId != null" >
+        operator_id = #{record.operatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update product_channel_config
+    set id = #{record.id,jdbcType=INTEGER},
+      product_app_id = #{record.productAppId,jdbcType=VARCHAR},
+      bus_channel = #{record.busChannel,jdbcType=VARCHAR},
+      sign_key = #{record.signKey,jdbcType=VARCHAR},
+      pay_notify_url = #{record.payNotifyUrl,jdbcType=VARCHAR},
+      refund_notify_url = #{record.refundNotifyUrl,jdbcType=VARCHAR},
+      sharing_notify_url = #{record.sharingNotifyUrl,jdbcType=VARCHAR},
+      huidu_pay_notify_url = #{record.huiduPayNotifyUrl,jdbcType=VARCHAR},
+      huidu_refund_notify_url = #{record.huiduRefundNotifyUrl,jdbcType=VARCHAR},
+      huidu_sharing_notify_url = #{record.huiduSharingNotifyUrl,jdbcType=VARCHAR},
+      operator_id = #{record.operatorId,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hnair.pay.db.entity.ProductChannelConfig" >
+    update product_channel_config
+    <set >
+      <if test="productAppId != null" >
+        product_app_id = #{productAppId,jdbcType=VARCHAR},
+      </if>
+      <if test="busChannel != null" >
+        bus_channel = #{busChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="signKey != null" >
+        sign_key = #{signKey,jdbcType=VARCHAR},
+      </if>
+      <if test="payNotifyUrl != null" >
+        pay_notify_url = #{payNotifyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="refundNotifyUrl != null" >
+        refund_notify_url = #{refundNotifyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="sharingNotifyUrl != null" >
+        sharing_notify_url = #{sharingNotifyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="huiduPayNotifyUrl != null" >
+        huidu_pay_notify_url = #{huiduPayNotifyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="huiduRefundNotifyUrl != null" >
+        huidu_refund_notify_url = #{huiduRefundNotifyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="huiduSharingNotifyUrl != null" >
+        huidu_sharing_notify_url = #{huiduSharingNotifyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorId != null" >
+        operator_id = #{operatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hnair.pay.db.entity.ProductChannelConfig" >
+    update product_channel_config
+    set product_app_id = #{productAppId,jdbcType=VARCHAR},
+      bus_channel = #{busChannel,jdbcType=VARCHAR},
+      sign_key = #{signKey,jdbcType=VARCHAR},
+      pay_notify_url = #{payNotifyUrl,jdbcType=VARCHAR},
+      refund_notify_url = #{refundNotifyUrl,jdbcType=VARCHAR},
+      sharing_notify_url = #{sharingNotifyUrl,jdbcType=VARCHAR},
+      huidu_pay_notify_url = #{huiduPayNotifyUrl,jdbcType=VARCHAR},
+      huidu_refund_notify_url = #{huiduRefundNotifyUrl,jdbcType=VARCHAR},
+      huidu_sharing_notify_url = #{huiduSharingNotifyUrl,jdbcType=VARCHAR},
+      operator_id = #{operatorId,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

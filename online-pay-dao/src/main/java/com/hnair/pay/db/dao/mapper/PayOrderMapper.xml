@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hnair.pay.db.dao.mapper.PayOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.hnair.pay.db.entity.PayOrder" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="bus_pay_no" property="busPayNo" jdbcType="VARCHAR" />
+    <result column="prepay_id" property="prepayId" jdbcType="VARCHAR" />
+    <result column="bus_order_no" property="busOrderNo" jdbcType="VARCHAR" />
+    <result column="bus_type" property="busType" jdbcType="VARCHAR" />
+    <result column="total_fee" property="totalFee" jdbcType="INTEGER" />
+    <result column="trade_pay_no" property="tradePayNo" jdbcType="VARCHAR" />
+    <result column="bus_channel" property="busChannel" jdbcType="VARCHAR" />
+    <result column="fee_type" property="feeType" jdbcType="VARCHAR" />
+    <result column="trade_type" property="tradeType" jdbcType="TINYINT" />
+    <result column="pay_success_time" property="paySuccessTime" jdbcType="TIMESTAMP" />
+    <result column="pay_status" property="payStatus" jdbcType="TINYINT" />
+    <result column="pay_channel_type" property="payChannelType" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="wx_open_id" property="wxOpenId" jdbcType="VARCHAR" />
+    <result column="hotel_id" property="hotelId" jdbcType="VARCHAR" />
+    <result column="sub_app_id" property="subAppId" jdbcType="VARCHAR" />
+    <result column="sub_mch_id" property="subMchId" jdbcType="VARCHAR" />
+    <result column="is_sharing_order" property="isSharingOrder" jdbcType="VARCHAR" />
+    <result column="send_status" property="sendStatus" jdbcType="TINYINT" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, bus_pay_no, prepay_id, bus_order_no, bus_type, total_fee, trade_pay_no, bus_channel, 
+    fee_type, trade_type, pay_success_time, pay_status, pay_channel_type, user_id, wx_open_id, 
+    hotel_id, sub_app_id, sub_mch_id, is_sharing_order, send_status, update_time, create_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hnair.pay.db.entity.PayOrderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from pay_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from pay_order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from pay_order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hnair.pay.db.entity.PayOrderExample" >
+    delete from pay_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hnair.pay.db.entity.PayOrder" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into pay_order (bus_pay_no, prepay_id, bus_order_no, 
+      bus_type, total_fee, trade_pay_no, 
+      bus_channel, fee_type, trade_type, 
+      pay_success_time, pay_status, pay_channel_type, 
+      user_id, wx_open_id, hotel_id, 
+      sub_app_id, sub_mch_id, is_sharing_order, 
+      send_status, update_time, create_time
+      )
+    values (#{busPayNo,jdbcType=VARCHAR}, #{prepayId,jdbcType=VARCHAR}, #{busOrderNo,jdbcType=VARCHAR}, 
+      #{busType,jdbcType=VARCHAR}, #{totalFee,jdbcType=INTEGER}, #{tradePayNo,jdbcType=VARCHAR}, 
+      #{busChannel,jdbcType=VARCHAR}, #{feeType,jdbcType=VARCHAR}, #{tradeType,jdbcType=TINYINT}, 
+      #{paySuccessTime,jdbcType=TIMESTAMP}, #{payStatus,jdbcType=TINYINT}, #{payChannelType,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=VARCHAR}, #{wxOpenId,jdbcType=VARCHAR}, #{hotelId,jdbcType=VARCHAR}, 
+      #{subAppId,jdbcType=VARCHAR}, #{subMchId,jdbcType=VARCHAR}, #{isSharingOrder,jdbcType=VARCHAR}, 
+      #{sendStatus,jdbcType=TINYINT}, #{updateTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hnair.pay.db.entity.PayOrder" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into pay_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="busPayNo != null" >
+        bus_pay_no,
+      </if>
+      <if test="prepayId != null" >
+        prepay_id,
+      </if>
+      <if test="busOrderNo != null" >
+        bus_order_no,
+      </if>
+      <if test="busType != null" >
+        bus_type,
+      </if>
+      <if test="totalFee != null" >
+        total_fee,
+      </if>
+      <if test="tradePayNo != null" >
+        trade_pay_no,
+      </if>
+      <if test="busChannel != null" >
+        bus_channel,
+      </if>
+      <if test="feeType != null" >
+        fee_type,
+      </if>
+      <if test="tradeType != null" >
+        trade_type,
+      </if>
+      <if test="paySuccessTime != null" >
+        pay_success_time,
+      </if>
+      <if test="payStatus != null" >
+        pay_status,
+      </if>
+      <if test="payChannelType != null" >
+        pay_channel_type,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="wxOpenId != null" >
+        wx_open_id,
+      </if>
+      <if test="hotelId != null" >
+        hotel_id,
+      </if>
+      <if test="subAppId != null" >
+        sub_app_id,
+      </if>
+      <if test="subMchId != null" >
+        sub_mch_id,
+      </if>
+      <if test="isSharingOrder != null" >
+        is_sharing_order,
+      </if>
+      <if test="sendStatus != null" >
+        send_status,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="busPayNo != null" >
+        #{busPayNo,jdbcType=VARCHAR},
+      </if>
+      <if test="prepayId != null" >
+        #{prepayId,jdbcType=VARCHAR},
+      </if>
+      <if test="busOrderNo != null" >
+        #{busOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="busType != null" >
+        #{busType,jdbcType=VARCHAR},
+      </if>
+      <if test="totalFee != null" >
+        #{totalFee,jdbcType=INTEGER},
+      </if>
+      <if test="tradePayNo != null" >
+        #{tradePayNo,jdbcType=VARCHAR},
+      </if>
+      <if test="busChannel != null" >
+        #{busChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="feeType != null" >
+        #{feeType,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeType != null" >
+        #{tradeType,jdbcType=TINYINT},
+      </if>
+      <if test="paySuccessTime != null" >
+        #{paySuccessTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payStatus != null" >
+        #{payStatus,jdbcType=TINYINT},
+      </if>
+      <if test="payChannelType != null" >
+        #{payChannelType,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="wxOpenId != null" >
+        #{wxOpenId,jdbcType=VARCHAR},
+      </if>
+      <if test="hotelId != null" >
+        #{hotelId,jdbcType=VARCHAR},
+      </if>
+      <if test="subAppId != null" >
+        #{subAppId,jdbcType=VARCHAR},
+      </if>
+      <if test="subMchId != null" >
+        #{subMchId,jdbcType=VARCHAR},
+      </if>
+      <if test="isSharingOrder != null" >
+        #{isSharingOrder,jdbcType=VARCHAR},
+      </if>
+      <if test="sendStatus != null" >
+        #{sendStatus,jdbcType=TINYINT},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hnair.pay.db.entity.PayOrderExample" resultType="java.lang.Integer" >
+    select count(*) from pay_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update pay_order
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.busPayNo != null" >
+        bus_pay_no = #{record.busPayNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prepayId != null" >
+        prepay_id = #{record.prepayId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.busOrderNo != null" >
+        bus_order_no = #{record.busOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.busType != null" >
+        bus_type = #{record.busType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalFee != null" >
+        total_fee = #{record.totalFee,jdbcType=INTEGER},
+      </if>
+      <if test="record.tradePayNo != null" >
+        trade_pay_no = #{record.tradePayNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.busChannel != null" >
+        bus_channel = #{record.busChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.feeType != null" >
+        fee_type = #{record.feeType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tradeType != null" >
+        trade_type = #{record.tradeType,jdbcType=TINYINT},
+      </if>
+      <if test="record.paySuccessTime != null" >
+        pay_success_time = #{record.paySuccessTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.payStatus != null" >
+        pay_status = #{record.payStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.payChannelType != null" >
+        pay_channel_type = #{record.payChannelType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wxOpenId != null" >
+        wx_open_id = #{record.wxOpenId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hotelId != null" >
+        hotel_id = #{record.hotelId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.subAppId != null" >
+        sub_app_id = #{record.subAppId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.subMchId != null" >
+        sub_mch_id = #{record.subMchId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isSharingOrder != null" >
+        is_sharing_order = #{record.isSharingOrder,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sendStatus != null" >
+        send_status = #{record.sendStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update pay_order
+    set id = #{record.id,jdbcType=INTEGER},
+      bus_pay_no = #{record.busPayNo,jdbcType=VARCHAR},
+      prepay_id = #{record.prepayId,jdbcType=VARCHAR},
+      bus_order_no = #{record.busOrderNo,jdbcType=VARCHAR},
+      bus_type = #{record.busType,jdbcType=VARCHAR},
+      total_fee = #{record.totalFee,jdbcType=INTEGER},
+      trade_pay_no = #{record.tradePayNo,jdbcType=VARCHAR},
+      bus_channel = #{record.busChannel,jdbcType=VARCHAR},
+      fee_type = #{record.feeType,jdbcType=VARCHAR},
+      trade_type = #{record.tradeType,jdbcType=TINYINT},
+      pay_success_time = #{record.paySuccessTime,jdbcType=TIMESTAMP},
+      pay_status = #{record.payStatus,jdbcType=TINYINT},
+      pay_channel_type = #{record.payChannelType,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=VARCHAR},
+      wx_open_id = #{record.wxOpenId,jdbcType=VARCHAR},
+      hotel_id = #{record.hotelId,jdbcType=VARCHAR},
+      sub_app_id = #{record.subAppId,jdbcType=VARCHAR},
+      sub_mch_id = #{record.subMchId,jdbcType=VARCHAR},
+      is_sharing_order = #{record.isSharingOrder,jdbcType=VARCHAR},
+      send_status = #{record.sendStatus,jdbcType=TINYINT},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hnair.pay.db.entity.PayOrder" >
+    update pay_order
+    <set >
+      <if test="busPayNo != null" >
+        bus_pay_no = #{busPayNo,jdbcType=VARCHAR},
+      </if>
+      <if test="prepayId != null" >
+        prepay_id = #{prepayId,jdbcType=VARCHAR},
+      </if>
+      <if test="busOrderNo != null" >
+        bus_order_no = #{busOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="busType != null" >
+        bus_type = #{busType,jdbcType=VARCHAR},
+      </if>
+      <if test="totalFee != null" >
+        total_fee = #{totalFee,jdbcType=INTEGER},
+      </if>
+      <if test="tradePayNo != null" >
+        trade_pay_no = #{tradePayNo,jdbcType=VARCHAR},
+      </if>
+      <if test="busChannel != null" >
+        bus_channel = #{busChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="feeType != null" >
+        fee_type = #{feeType,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeType != null" >
+        trade_type = #{tradeType,jdbcType=TINYINT},
+      </if>
+      <if test="paySuccessTime != null" >
+        pay_success_time = #{paySuccessTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payStatus != null" >
+        pay_status = #{payStatus,jdbcType=TINYINT},
+      </if>
+      <if test="payChannelType != null" >
+        pay_channel_type = #{payChannelType,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="wxOpenId != null" >
+        wx_open_id = #{wxOpenId,jdbcType=VARCHAR},
+      </if>
+      <if test="hotelId != null" >
+        hotel_id = #{hotelId,jdbcType=VARCHAR},
+      </if>
+      <if test="subAppId != null" >
+        sub_app_id = #{subAppId,jdbcType=VARCHAR},
+      </if>
+      <if test="subMchId != null" >
+        sub_mch_id = #{subMchId,jdbcType=VARCHAR},
+      </if>
+      <if test="isSharingOrder != null" >
+        is_sharing_order = #{isSharingOrder,jdbcType=VARCHAR},
+      </if>
+      <if test="sendStatus != null" >
+        send_status = #{sendStatus,jdbcType=TINYINT},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hnair.pay.db.entity.PayOrder" >
+    update pay_order
+    set bus_pay_no = #{busPayNo,jdbcType=VARCHAR},
+      prepay_id = #{prepayId,jdbcType=VARCHAR},
+      bus_order_no = #{busOrderNo,jdbcType=VARCHAR},
+      bus_type = #{busType,jdbcType=VARCHAR},
+      total_fee = #{totalFee,jdbcType=INTEGER},
+      trade_pay_no = #{tradePayNo,jdbcType=VARCHAR},
+      bus_channel = #{busChannel,jdbcType=VARCHAR},
+      fee_type = #{feeType,jdbcType=VARCHAR},
+      trade_type = #{tradeType,jdbcType=TINYINT},
+      pay_success_time = #{paySuccessTime,jdbcType=TIMESTAMP},
+      pay_status = #{payStatus,jdbcType=TINYINT},
+      pay_channel_type = #{payChannelType,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      wx_open_id = #{wxOpenId,jdbcType=VARCHAR},
+      hotel_id = #{hotelId,jdbcType=VARCHAR},
+      sub_app_id = #{subAppId,jdbcType=VARCHAR},
+      sub_mch_id = #{subMchId,jdbcType=VARCHAR},
+      is_sharing_order = #{isSharingOrder,jdbcType=VARCHAR},
+      send_status = #{sendStatus,jdbcType=TINYINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

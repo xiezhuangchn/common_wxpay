@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hnair.pay.db.dao.mapper.RefundOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.hnair.pay.db.entity.RefundOrder" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="refund_order_no" property="refundOrderNo" jdbcType="VARCHAR" />
+    <result column="refund_trade_no" property="refundTradeNo" jdbcType="VARCHAR" />
+    <result column="bus_pay_no" property="busPayNo" jdbcType="VARCHAR" />
+    <result column="bus_channel" property="busChannel" jdbcType="VARCHAR" />
+    <result column="bus_order_no" property="busOrderNo" jdbcType="VARCHAR" />
+    <result column="bus_type" property="busType" jdbcType="VARCHAR" />
+    <result column="trade_pay_no" property="tradePayNo" jdbcType="VARCHAR" />
+    <result column="total_fee" property="totalFee" jdbcType="BIGINT" />
+    <result column="refund_fee" property="refundFee" jdbcType="BIGINT" />
+    <result column="refund_fee_type" property="refundFeeType" jdbcType="VARCHAR" />
+    <result column="refund_time" property="refundTime" jdbcType="TIMESTAMP" />
+    <result column="refund_reason" property="refundReason" jdbcType="VARCHAR" />
+    <result column="refund_status" property="refundStatus" jdbcType="INTEGER" />
+    <result column="num" property="num" jdbcType="INTEGER" />
+    <result column="op_user_id" property="opUserId" jdbcType="VARCHAR" />
+    <result column="sub_mch_id" property="subMchId" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="call_order_status" property="callOrderStatus" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, refund_order_no, refund_trade_no, bus_pay_no, bus_channel, bus_order_no, bus_type, 
+    trade_pay_no, total_fee, refund_fee, refund_fee_type, refund_time, refund_reason, 
+    refund_status, num, op_user_id, sub_mch_id, update_time, create_time, call_order_status
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hnair.pay.db.entity.RefundOrderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from refund_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from refund_order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from refund_order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hnair.pay.db.entity.RefundOrderExample" >
+    delete from refund_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hnair.pay.db.entity.RefundOrder" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into refund_order (refund_order_no, refund_trade_no, bus_pay_no, 
+      bus_channel, bus_order_no, bus_type, 
+      trade_pay_no, total_fee, refund_fee, 
+      refund_fee_type, refund_time, refund_reason, 
+      refund_status, num, op_user_id, 
+      sub_mch_id, update_time, create_time, 
+      call_order_status)
+    values (#{refundOrderNo,jdbcType=VARCHAR}, #{refundTradeNo,jdbcType=VARCHAR}, #{busPayNo,jdbcType=VARCHAR}, 
+      #{busChannel,jdbcType=VARCHAR}, #{busOrderNo,jdbcType=VARCHAR}, #{busType,jdbcType=VARCHAR}, 
+      #{tradePayNo,jdbcType=VARCHAR}, #{totalFee,jdbcType=BIGINT}, #{refundFee,jdbcType=BIGINT}, 
+      #{refundFeeType,jdbcType=VARCHAR}, #{refundTime,jdbcType=TIMESTAMP}, #{refundReason,jdbcType=VARCHAR}, 
+      #{refundStatus,jdbcType=INTEGER}, #{num,jdbcType=INTEGER}, #{opUserId,jdbcType=VARCHAR}, 
+      #{subMchId,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{callOrderStatus,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hnair.pay.db.entity.RefundOrder" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into refund_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="refundOrderNo != null" >
+        refund_order_no,
+      </if>
+      <if test="refundTradeNo != null" >
+        refund_trade_no,
+      </if>
+      <if test="busPayNo != null" >
+        bus_pay_no,
+      </if>
+      <if test="busChannel != null" >
+        bus_channel,
+      </if>
+      <if test="busOrderNo != null" >
+        bus_order_no,
+      </if>
+      <if test="busType != null" >
+        bus_type,
+      </if>
+      <if test="tradePayNo != null" >
+        trade_pay_no,
+      </if>
+      <if test="totalFee != null" >
+        total_fee,
+      </if>
+      <if test="refundFee != null" >
+        refund_fee,
+      </if>
+      <if test="refundFeeType != null" >
+        refund_fee_type,
+      </if>
+      <if test="refundTime != null" >
+        refund_time,
+      </if>
+      <if test="refundReason != null" >
+        refund_reason,
+      </if>
+      <if test="refundStatus != null" >
+        refund_status,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="opUserId != null" >
+        op_user_id,
+      </if>
+      <if test="subMchId != null" >
+        sub_mch_id,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="callOrderStatus != null" >
+        call_order_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="refundOrderNo != null" >
+        #{refundOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="refundTradeNo != null" >
+        #{refundTradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="busPayNo != null" >
+        #{busPayNo,jdbcType=VARCHAR},
+      </if>
+      <if test="busChannel != null" >
+        #{busChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="busOrderNo != null" >
+        #{busOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="busType != null" >
+        #{busType,jdbcType=VARCHAR},
+      </if>
+      <if test="tradePayNo != null" >
+        #{tradePayNo,jdbcType=VARCHAR},
+      </if>
+      <if test="totalFee != null" >
+        #{totalFee,jdbcType=BIGINT},
+      </if>
+      <if test="refundFee != null" >
+        #{refundFee,jdbcType=BIGINT},
+      </if>
+      <if test="refundFeeType != null" >
+        #{refundFeeType,jdbcType=VARCHAR},
+      </if>
+      <if test="refundTime != null" >
+        #{refundTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="refundReason != null" >
+        #{refundReason,jdbcType=VARCHAR},
+      </if>
+      <if test="refundStatus != null" >
+        #{refundStatus,jdbcType=INTEGER},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="opUserId != null" >
+        #{opUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="subMchId != null" >
+        #{subMchId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="callOrderStatus != null" >
+        #{callOrderStatus,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hnair.pay.db.entity.RefundOrderExample" resultType="java.lang.Integer" >
+    select count(*) from refund_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update refund_order
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.refundOrderNo != null" >
+        refund_order_no = #{record.refundOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.refundTradeNo != null" >
+        refund_trade_no = #{record.refundTradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.busPayNo != null" >
+        bus_pay_no = #{record.busPayNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.busChannel != null" >
+        bus_channel = #{record.busChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.busOrderNo != null" >
+        bus_order_no = #{record.busOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.busType != null" >
+        bus_type = #{record.busType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tradePayNo != null" >
+        trade_pay_no = #{record.tradePayNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalFee != null" >
+        total_fee = #{record.totalFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.refundFee != null" >
+        refund_fee = #{record.refundFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.refundFeeType != null" >
+        refund_fee_type = #{record.refundFeeType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.refundTime != null" >
+        refund_time = #{record.refundTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.refundReason != null" >
+        refund_reason = #{record.refundReason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.refundStatus != null" >
+        refund_status = #{record.refundStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.num != null" >
+        num = #{record.num,jdbcType=INTEGER},
+      </if>
+      <if test="record.opUserId != null" >
+        op_user_id = #{record.opUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.subMchId != null" >
+        sub_mch_id = #{record.subMchId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.callOrderStatus != null" >
+        call_order_status = #{record.callOrderStatus,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update refund_order
+    set id = #{record.id,jdbcType=INTEGER},
+      refund_order_no = #{record.refundOrderNo,jdbcType=VARCHAR},
+      refund_trade_no = #{record.refundTradeNo,jdbcType=VARCHAR},
+      bus_pay_no = #{record.busPayNo,jdbcType=VARCHAR},
+      bus_channel = #{record.busChannel,jdbcType=VARCHAR},
+      bus_order_no = #{record.busOrderNo,jdbcType=VARCHAR},
+      bus_type = #{record.busType,jdbcType=VARCHAR},
+      trade_pay_no = #{record.tradePayNo,jdbcType=VARCHAR},
+      total_fee = #{record.totalFee,jdbcType=BIGINT},
+      refund_fee = #{record.refundFee,jdbcType=BIGINT},
+      refund_fee_type = #{record.refundFeeType,jdbcType=VARCHAR},
+      refund_time = #{record.refundTime,jdbcType=TIMESTAMP},
+      refund_reason = #{record.refundReason,jdbcType=VARCHAR},
+      refund_status = #{record.refundStatus,jdbcType=INTEGER},
+      num = #{record.num,jdbcType=INTEGER},
+      op_user_id = #{record.opUserId,jdbcType=VARCHAR},
+      sub_mch_id = #{record.subMchId,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      call_order_status = #{record.callOrderStatus,jdbcType=TINYINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hnair.pay.db.entity.RefundOrder" >
+    update refund_order
+    <set >
+      <if test="refundOrderNo != null" >
+        refund_order_no = #{refundOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="refundTradeNo != null" >
+        refund_trade_no = #{refundTradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="busPayNo != null" >
+        bus_pay_no = #{busPayNo,jdbcType=VARCHAR},
+      </if>
+      <if test="busChannel != null" >
+        bus_channel = #{busChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="busOrderNo != null" >
+        bus_order_no = #{busOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="busType != null" >
+        bus_type = #{busType,jdbcType=VARCHAR},
+      </if>
+      <if test="tradePayNo != null" >
+        trade_pay_no = #{tradePayNo,jdbcType=VARCHAR},
+      </if>
+      <if test="totalFee != null" >
+        total_fee = #{totalFee,jdbcType=BIGINT},
+      </if>
+      <if test="refundFee != null" >
+        refund_fee = #{refundFee,jdbcType=BIGINT},
+      </if>
+      <if test="refundFeeType != null" >
+        refund_fee_type = #{refundFeeType,jdbcType=VARCHAR},
+      </if>
+      <if test="refundTime != null" >
+        refund_time = #{refundTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="refundReason != null" >
+        refund_reason = #{refundReason,jdbcType=VARCHAR},
+      </if>
+      <if test="refundStatus != null" >
+        refund_status = #{refundStatus,jdbcType=INTEGER},
+      </if>
+      <if test="num != null" >
+        num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="opUserId != null" >
+        op_user_id = #{opUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="subMchId != null" >
+        sub_mch_id = #{subMchId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="callOrderStatus != null" >
+        call_order_status = #{callOrderStatus,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hnair.pay.db.entity.RefundOrder" >
+    update refund_order
+    set refund_order_no = #{refundOrderNo,jdbcType=VARCHAR},
+      refund_trade_no = #{refundTradeNo,jdbcType=VARCHAR},
+      bus_pay_no = #{busPayNo,jdbcType=VARCHAR},
+      bus_channel = #{busChannel,jdbcType=VARCHAR},
+      bus_order_no = #{busOrderNo,jdbcType=VARCHAR},
+      bus_type = #{busType,jdbcType=VARCHAR},
+      trade_pay_no = #{tradePayNo,jdbcType=VARCHAR},
+      total_fee = #{totalFee,jdbcType=BIGINT},
+      refund_fee = #{refundFee,jdbcType=BIGINT},
+      refund_fee_type = #{refundFeeType,jdbcType=VARCHAR},
+      refund_time = #{refundTime,jdbcType=TIMESTAMP},
+      refund_reason = #{refundReason,jdbcType=VARCHAR},
+      refund_status = #{refundStatus,jdbcType=INTEGER},
+      num = #{num,jdbcType=INTEGER},
+      op_user_id = #{opUserId,jdbcType=VARCHAR},
+      sub_mch_id = #{subMchId,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      call_order_status = #{callOrderStatus,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hnair.pay.db.dao.mapext.PayOrderExtMapper">
+
+  <select id="selectByPayOrderNoForUpdate" parameterType="java.lang.String" resultMap="com.hnair.pay.db.dao.mapper.PayOrderMapper.BaseResultMap">
+    select
+    <include refid="com.hnair.pay.db.dao.mapper.PayOrderMapper.Base_Column_List"/>
+    from pay_order
+    where bus_pay_no = #{busOrderNo,jdbcType=VARCHAR} for update
+  </select>
+
+  <select id="selectByBusOrderNoForUpdate"  parameterType="java.lang.String" resultMap="com.hnair.pay.db.dao.mapper.PayOrderMapper.BaseResultMap">
+      select * from pay_order where bus_order_no = #{busOrderNo}  for update;
+  </select>
+
+  <select id="selectSharingOrderLimit" resultMap="com.hnair.pay.db.dao.mapper.ProfitsharingOrderMapper.BaseResultMap" parameterType="java.util.Map" >
+      select * from profitsharing_order
+       where 1=1 AND num &lt;= 20
+      <if test="sendStatus != null" >
+          and send_status = #{sendStatus}
+      </if>
+      <if test="sharingStatus != null" >
+          and sharing_status = #{sharingStatus}
+      </if>
+       limit #{num};
+  </select>
+
+    <select id="selectHandingLimit" resultMap="com.hnair.pay.db.dao.mapper.ProfitsharingOrderMapper.BaseResultMap"
+            parameterType="java.util.Map">
+        select * from profitsharing_order where sharing_status = 1 and
+        DATE_ADD(update_time, INTERVAL 5 MINUTE) &lt;= now() limit #{num};
+    </select>
+
+  <select id="selectCloseOrderLimit" resultMap="com.hnair.pay.db.dao.mapper.PayOrderMapper.BaseResultMap" parameterType="java.util.Map" >
+      select trade_pay_no from pay_order where  limit #{num};
+  </select>
+
+
+
+</mapper>

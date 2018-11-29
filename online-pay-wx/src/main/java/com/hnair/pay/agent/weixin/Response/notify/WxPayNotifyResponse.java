@@ -1,0 +1,63 @@
+package com.hnair.pay.agent.weixin.Response.notify;
+
+import com.hnair.pay.agent.weixin.utils.XStreamCDataConverter;
+import com.hnair.pay.agent.weixin.utils.XStreamInitializer;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamConverter;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
+/**
+ * 微信支付订单和退款的异步通知共用的响应类
+ */
+@XStreamAlias("xml")
+public class WxPayNotifyResponse {
+
+  @XStreamOmitField
+  private  static final String FAIL = "FAIL";
+  @XStreamOmitField
+  private  static final String SUCCESS = "SUCCESS";
+
+  @XStreamAlias("return_code")
+  @XStreamConverter(value = XStreamCDataConverter.class)
+  private String returnCode;
+
+  @XStreamConverter(value = XStreamCDataConverter.class)
+  @XStreamAlias("return_msg")
+  private String returnMsg;
+
+  public WxPayNotifyResponse(String fail, String msg) {
+    this.returnCode = fail;
+    this.returnMsg = msg;
+  }
+
+  public static String fail(String msg) {
+    WxPayNotifyResponse response = new WxPayNotifyResponse(FAIL, msg);
+    XStream xstream = XStreamInitializer.getInstance();
+    xstream.autodetectAnnotations(true);
+    return xstream.toXML(response);
+  }
+
+  public static String success(String msg) {
+    WxPayNotifyResponse response = new WxPayNotifyResponse(SUCCESS, msg);
+    XStream xstream = XStreamInitializer.getInstance();
+    xstream.autodetectAnnotations(true);
+    return xstream.toXML(response);
+  }
+
+  public String getReturnCode() {
+    return returnCode;
+  }
+
+  public void setReturnCode(String returnCode) {
+    this.returnCode = returnCode;
+  }
+
+  public String getReturnMsg() {
+    return returnMsg;
+  }
+
+  public void setReturnMsg(String returnMsg) {
+    this.returnMsg = returnMsg;
+  }
+}

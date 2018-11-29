@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hnair.pay.db.dao.mapext.RefundOrderMapperExt">
+
+  <select id="selectByRefundOrderNoForUpdate" parameterType="java.lang.String" resultMap="com.hnair.pay.db.dao.mapper.RefundOrderMapper.BaseResultMap">
+    select * from refund_order
+      where refund_order_no = #{refundOrderNo,jdbcType=VARCHAR} FOR UPDATE
+  </select>
+
+    <select id="selectPendingLimit" resultMap="com.hnair.pay.db.dao.mapper.RefundOrderMapper.BaseResultMap" parameterType="java.util.Map" >
+      select * from refund_order where refund_status = 0 limit #{num};
+   </select>
+
+    <select id="selectFailLimit" resultMap="com.hnair.pay.db.dao.mapper.RefundOrderMapper.BaseResultMap" parameterType="java.util.Map" >
+      select * from refund_order where refund_status = -1 and num  &lt;= 30 limit #{num};
+   </select>
+
+    <select id="selectHandingLimit" resultMap="com.hnair.pay.db.dao.mapper.RefundOrderMapper.BaseResultMap" parameterType="java.util.Map" >
+      select * from refund_order where refund_status = 1 and
+        DATE_ADD(update_time, INTERVAL 5 MINUTE)  &lt;= now() limit #{num};
+   </select>
+
+    <select id="selectSendSuccessLimit" resultMap="com.hnair.pay.db.dao.mapper.RefundOrderMapper.BaseResultMap" parameterType="java.util.Map" >
+      select * from refund_order where refund_status = 2 and
+        DATE_ADD(update_time, INTERVAL 30 MINUTE)  &lt;= now() limit #{num};
+   </select>
+
+    <select id="selectNumTimesLimit" resultMap="com.hnair.pay.db.dao.mapper.RefundOrderMapper.BaseResultMap" parameterType="java.util.Map" >
+      select * from refund_order where num > 30 limit #{num};
+   </select>
+</mapper>
